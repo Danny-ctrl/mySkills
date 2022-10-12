@@ -13,7 +13,9 @@ export function Home() {
   return (
 
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Daniele</Text>
+      <Text style={styles.title}>
+        Welcome Daniele
+      </Text>
 
       <TextInput
         style={styles.input}
@@ -26,6 +28,10 @@ export function Home() {
       >
         <Text style={styles.buttonText}>Add</Text>
       </TouchableOpacity>
+
+      <Text style={[styles.title, { marginTop: 50 }]}>
+        My Skills
+      </Text>
     </View>
 
   )
