@@ -32,14 +32,14 @@ export function Home() {
         onChanceText={setNewSkill}
       />
 
-      <Button />
+      <Button onPress={handleAddNewSkill} />
 
       <Text style={[styles.title, { marginVertical: 50 }]}>
         My Skills
       </Text>
       {
         mySkills.map(skill => (
-          <SkillCard />
+          <SkillCard skill={skill} />
         ))
       }
     </View>
