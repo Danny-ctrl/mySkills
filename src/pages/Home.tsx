@@ -11,14 +11,30 @@ import {
 import { Button } from '../components/Button';
 import { SkillCard } from '../components/SkillCard';
 
+interface SkillData {
+  id: string;
+  name: string;
+}
+
 export function Home() {
   const [newSkill, setNewSkill] = useState('');
-  const [mySkills, setMySkills] = useState([]);
+  const [mySkills, setMySkills] = useState<SkillData[]>([]);
   const [gretting, setGretting] = useState('');
 
 
   function handleAddNewSkill() {
-    setMySkills(oldState => [...oldState, newSkill]);
+    const data = {
+      id: String(new Date().getTime()),
+      name: newSkill
+    }
+
+    setMySkills(oldState => [...oldState, data]);
+  }
+
+  function handleRemoveSkill(id: string) {
+    setMySkills(oldState => oldState.filter(
+      skill => skill.id !== id
+    ));
   }
 
   useEffect(() => {
@@ -42,17 +58,21 @@ export function Home() {
         Welcome Daniele
       </Text>
 
-      <Text style={styles.grettings}>
+      <Text style={styles.greetings}>
         {gretting}
       </Text>
       <TextInput
         style={styles.input}
         placeholder="New Skill"
         placeholderTextColor="#555"
-        onChanceText={setNewSkill}
+        onChangeText={setNewSkill}
       />
 
-      <Button onPress={handleAddNewSkill} />
+      <Button
+        title="Add"
+        onPress={handleAddNewSkill}
+
+      />
 
       <Text style={[styles.title, { marginVertical: 50 }]}>
         mySkills
@@ -60,15 +80,14 @@ export function Home() {
 
       <FlatList
         data={mySkills}
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <SkillCard skill={item
-          } />
+          <SkillCard
+            skill={item.name}
+            onPress={() => handleRemoveSkill(item.id)}
+          />
         )}
       />
-
-
-
 
     </View>
 
@@ -94,6 +113,9 @@ const styles = StyleSheet.create({
     padding: Platform.OS == 'ios' ? 15 : 10,
     marginTop: 30,
     borderRadius: 7
+  },
+  greetings: {
+    color: '#FFF'
   }
 
 }); 
